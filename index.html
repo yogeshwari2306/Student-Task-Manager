@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudyDesk – Task Manager</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<div class="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-name">StudyDesk</div>
+    </div>
+    <nav class="nav">
+      <div class="nav-label">Views</div>
+      <button class="nav-item active" data-view="all" onclick="setView('all')">
+        <i class="ti ti-layout-list"></i>
+        All tasks
+        <span class="nav-count" id="count-all">0</span>
+      </button>
+      <button class="nav-item" data-view="today" onclick="setView('today')">
+        <i class="ti ti-calendar-event"></i>
+        Due today
+        <span class="nav-count" id="count-today">0</span>
+      </button>
+      <button class="nav-item" data-view="upcoming" onclick="setView('upcoming')">
+        <i class="ti ti-calendar-week"></i>
+        Upcoming
+        <span class="nav-count" id="count-upcoming">0</span>
+      </button>
+      <button class="nav-item" data-view="overdue" onclick="setView('overdue')">
+        <i class="ti ti-alert-circle"></i>
+        Overdue
+        <span class="nav-count" id="count-overdue">0</span>
+      </button>
+      <button class="nav-item" data-view="done" onclick="setView('done')">
+        <i class="ti ti-circle-check"></i>
+        Completed
+        <span class="nav-count" id="count-done">0</span>
+      </button>
+
+      <div class="nav-label" style="margin-top:14px;">Subjects</div>
+      <div id="subject-nav"></div>
+      <button class="add-subject-btn" onclick="openSubjectModal()">
+        <i class="ti ti-plus"></i>
+        Add subject
+      </button>
+    </nav>
+  </aside>
+
+  <!-- MAIN VIEW -->
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title" id="topbar-title">All tasks</div>
+      <div class="search-wrap">
+        <i class="ti ti-search"></i>
+        <input class="search-input" type="text" placeholder="Search tasks…" id="search-input" oninput="renderTasks()">
+      </div>
+      <button class="btn btn-primary" onclick="openTaskModal()">
+        <i class="ti ti-plus"></i>
+        Add task
+      </button>
+    </div>
+
+    <div class="stats-bar" id="stats-bar">
+      <div class="stat-card">
+        <div class="stat-icon purple"><i class="ti ti-clipboard-list"></i></div>
+        <div>
+          <div class="stat-num" id="stat-total">0</div>
+          <div class="stat-lbl">Total tasks</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon green"><i class="ti ti-circle-check"></i></div>
+        <div>
+          <div class="stat-num" id="stat-done">0</div>
+          <div class="stat-lbl">Completed</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon amber"><i class="ti ti-clock"></i></div>
+        <div>
+          <div class="stat-num" id="stat-pending">0</div>
+          <div class="stat-lbl">Pending</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon red"><i class="ti ti-alert-circle"></i></div>
+        <div>
+          <div class="stat-num" id="stat-overdue">0</div>
+          <div class="stat-lbl">Overdue</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="progress-section">
+        <div class="progress-header">
+          <span class="progress-label">Overall completion</span>
+          <span class="progress-pct" id="prog-pct">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="prog-fill" style="width:0%"></div>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <span class="section-title" id="section-title">All tasks</span>
+        <div class="filter-row" id="filter-row">
+          <button class="filter-chip active" data-priority="all" onclick="setFilter('all')">All</button>
+          <button class="filter-chip" data-priority="high" onclick="setFilter('high')">High</button>
+          <button class="filter-chip" data-priority="medium" onclick="setFilter('medium')">Medium</button>
+          <button class="filter-chip" data-priority="low" onclick="setFilter('low')">Low</button>
+        </div>
+      </div>
+
+      <div class="task-list" id="task-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TASK MODAL -->
+<div class="modal-overlay" id="task-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">Add new task</div>
+      <button class="icon-btn" onclick="closeTaskModal()"><i class="ti ti-x"></i></button>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Task name</label>
+      <input class="form-input" type="text" id="task-name-input" placeholder="e.g. Write essay introduction…">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Notes (optional)</label>
+      <textarea class="form-textarea" id="task-notes-input" placeholder="Additional details…"></textarea>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Subject</label>
+        <select class="form-select" id="task-subject-input">
+          <option value="">None</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Priority</label>
+        <select class="form-select" id="task-priority-input">
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+          <option value="low">Low</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Due date</label>
+        <input class="form-input" type="date" id="task-date-input">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Due time (optional)</label>
+        <input class="form-input" type="time" id="task-time-input">
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn" onclick="closeTaskModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveTask()">Save task</button>
+    </div>
+  </div>
+</div>
+
+<!-- SUBJECT MODAL -->
+<div class="modal-overlay" id="subject-modal">
+  <div class="modal" style="max-width:360px">
+    <div class="modal-header">
+      <div class="modal-title">Add subject</div>
+      <button class="icon-btn" onclick="closeSubjectModal()"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Subject name</label>
+      <input class="form-input" type="text" id="subject-name-input" placeholder="e.g. Python">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Color</label>
+      <div class="color-picker" id="color-picker"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeSubjectModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveSubject()">Add subject</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toast-container"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
