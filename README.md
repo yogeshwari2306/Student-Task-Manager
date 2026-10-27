@@ -11,6 +11,7 @@ StudyDesk is a responsive, client-side productivity application designed to help
 3. Schedule deadlines with both date and optional due time.
 4. Add descriptive notes to tasks for extra study context.
 
+
 * Multiple Smart Views & Filtering:
 
 1. All Tasks: Comprehensive overview of all current items.
@@ -21,26 +22,28 @@ StudyDesk is a responsive, client-side productivity application designed to help
 6. Subject Views: Filter exclusively by selected subject tags.
 7. Priority Filter Chips & Search: Instant live-search by title or notes.
 
+
 * Productivity Metrics & Progress Tracking:
 
 1. Real-time stat bar tracking total, completed, pending, and overdue counts.
 2. Dynamic completion progress bar reflecting current completion percentage.
 
+
 * Persistent Local Storage:
 
-Uses the browser's localStorage API so tasks and subjects persist across refreshes without requiring a backend database.
+1. Uses the browser's localStorage API so tasks and subjects persist across refreshes without requiring a backend database.
+
 
 * Adaptive Design:
 
-Responsive layout for desktop and tablet screens.
+1. Responsive layout for desktop and tablet screens.
+2. Native dark mode and light mode adaptation via prefers-color-scheme.
 
-Native dark mode and light mode adaptation via prefers-color-scheme.
 
 * Subject Management:
 
-Custom color picker palette for newly created subjects.
-
-Inline subject deletion with automatic task unlinking.
+1. Custom color picker palette for newly created subjects.
+2. Inline subject deletion with automatic task unlinking.
 
 ## 🛠️ Tech Stack
 
@@ -52,6 +55,7 @@ Inline subject deletion with automatic task unlinking.
 ## 📁 Project Structure
 
 studydesk/
+
 ├── index.html       
 ├── style.css        
 ├── app.js           
@@ -81,6 +85,6 @@ Alternatively, use a local server like VS Code's Live Server extension.
 * getFilteredTasks(): Pure filtering pipeline supporting combined text querying, view matching, and multi-tier priority sorting.
 * render(): Master UI synchronization routine updating navigation counters, metrics bars, and task cards.
 
-## Autor
+## 👩‍🎓 Author
 
 Yogeshwari Bhosale
